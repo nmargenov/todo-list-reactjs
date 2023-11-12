@@ -1,4 +1,4 @@
-import styles from "./addTodoModal.module.css";
+import styles from "../shared/addEditTodoModal.module.css";
 
 export const AddTodoModal = () => {
   return (
