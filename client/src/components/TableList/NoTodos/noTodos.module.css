@@ -1,0 +1,9 @@
+.main{
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #c9c8c8;
+}
+
+.title{
+    margin-top: 100px;
+}

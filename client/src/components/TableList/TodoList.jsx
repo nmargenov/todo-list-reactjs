@@ -5,6 +5,7 @@ import { TodoListItem } from "./TodoListItem/TodoListItem";
 
 import { useEffect, useState } from "react";
 import { getAllTodos } from "../../services/todoService";
+import { NoTodos } from "./NoTodos/NoTodos";
 
 export const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -23,7 +24,8 @@ export const TodoList = () => {
       </div>
       <div className={styles["main"]}>
         <ul>
-          {todos.map(t=><TodoListItem key={t._id} {...t}/>)}
+          {todos.length===0 && <NoTodos/>}
+          {todos.length>0 && todos.map(t=><TodoListItem key={t._id} {...t}/>)}
         </ul>
       </div>
       <div className={styles["footer"]}>
