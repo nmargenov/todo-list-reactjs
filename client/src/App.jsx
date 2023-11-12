@@ -1,8 +1,14 @@
+import styles from './app.module.css';
+import { TodoList } from './components/TableList/TodoList';
+
+
 function App() {
 
   return (
     <>
-      <h1>works</h1>
+    <main className={styles['main']}>
+      <TodoList/>
+    </main>
     </>
   )
 }
