@@ -1,9 +1,9 @@
-const { getAllPosts, createPost, deleteById, editById, markAsCompleted } = require('../managers/todoManager');
+const { getAllPosts, createPost, deleteById, editById, markAsCompleted, getOneById } = require('../managers/todoManager');
 
 const router = require('express').Router();
 
 const paths = {
-    todo:'/:id',
+    todo: '/:id',
     todos: '/',
 }
 
@@ -26,34 +26,45 @@ router.post(paths.todos, async (req, res) => {
     }
 });
 
-router.delete(paths.todo,async(req,res)=>{
-    try{
+router.delete(paths.todo, async (req, res) => {
+    try {
         const id = req.params.id;
         const post = await deleteById(id);
         res.status(200).json(post);
-    }catch(err){
+    } catch (err) {
         res.status(400).send({ message: err.message });
     }
 });
 
-router.put(paths.todo,async(req,res)=>{
-    try{
+router.put(paths.todo, async (req, res) => {
+    try {
         const id = req.params.id;
         const description = req.body.description?.trim();
-        const post = await editById(id,description);
+        const post = await editById(id, description);
         res.status(200).json(post);
-    }catch(err){
+    } catch (err) {
         res.status(400).send({ message: err.message });
     }
 })
 
-router.patch(paths.todo,async(req,res)=>{
-    try{
+router.patch(paths.todo, async (req, res) => {
+    try {
         const id = req.params.id;
         const post = await markAsCompleted(id);
         res.status(200).json(post);
-    }catch(err){
+    } catch (err) {
         res.status(400).send({ message: err.message });
-    }});
+    }
+});
+
+router.get(paths.todo,async(req,res)=>{
+    try {
+        const id = req.params.id;
+        const post = await getOneById(id);
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(400).send({ message: err.message });
+    }
+})
 
 module.exports = router;

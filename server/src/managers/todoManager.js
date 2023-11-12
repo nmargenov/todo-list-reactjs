@@ -35,3 +35,7 @@ exports.markAsCompleted = async (id)=>{
     }
     return Todo.findByIdAndUpdate(id, edit, { runValidators: true, new: true });
 }
+
+exports.getOneById = (id) =>{
+    return Todo.findById(id);
+}
