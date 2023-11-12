@@ -22,11 +22,16 @@ li:last-child {
   color: green;
 }
 
+.edit-btn{
+  margin-right: 30px;
+}
+
 .delete-btn {
   color: red;
 }
 
 .check-btn:hover,
+.edit-btn:hover,
 .delete-btn:hover{
   cursor: pointer;
 }

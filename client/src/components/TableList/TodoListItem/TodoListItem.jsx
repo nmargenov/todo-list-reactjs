@@ -1,6 +1,6 @@
 import styles from "./todoListItem.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 
 export const TodoListItem = () => {
   return (
@@ -11,6 +11,7 @@ export const TodoListItem = () => {
       </div>
       <div className={styles["buttons"]}>
         <FontAwesomeIcon className={styles["check-btn"]} icon={faCheck} />
+        <FontAwesomeIcon className={styles["edit-btn"]} icon={faPen} />
         <FontAwesomeIcon className={styles["delete-btn"]} icon={faTrash} />
       </div>
     </li>
