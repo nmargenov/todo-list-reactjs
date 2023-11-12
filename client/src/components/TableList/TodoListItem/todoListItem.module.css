@@ -38,14 +38,14 @@ li:last-child {
 
 .is-completed {
   height: 35px;
-  border-right: 3px solid red;
+  border-right: 3px solid rgb(0, 207, 0);
   border-radius: 50px;
   margin-right: 10px;
 }
 
 .is-ongoing {
   height: 35px;
-  border-right: 3px solid rgb(0, 207, 0);
+  border-right: 3px solid red;
   border-radius: 50px;
   margin-right: 10px;
 }
