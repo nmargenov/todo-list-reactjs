@@ -6,15 +6,24 @@ import { TodoListItem } from "./TodoListItem/TodoListItem";
 import { useEffect, useState } from "react";
 import { getAllTodos } from "../../services/todoService";
 import { NoTodos } from "./NoTodos/NoTodos";
+import { Spinner } from "../Spinner/Spinner";
 
 export const TodoList = () => {
   const [todos, setTodos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
+    setIsLoading(true);
     getAllTodos()
-      .then(setTodos)
-      .catch((err)=>{console.log(err)});
-  },[]);
+      .then((data) => {
+        setIsLoading(false);
+        setTodos(data);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className={styles["container"]}>
@@ -24,8 +33,10 @@ export const TodoList = () => {
       </div>
       <div className={styles["main"]}>
         <ul>
-          {todos.length===0 && <NoTodos/>}
-          {todos.length>0 && todos.map(t=><TodoListItem key={t._id} {...t}/>)}
+          {isLoading && <Spinner/>}
+          {(!isLoading && todos.length === 0) && <NoTodos />}
+          {(!isLoading && todos.length > 0) &&
+            todos.map((t) => <TodoListItem key={t._id} {...t} />)}
         </ul>
       </div>
       <div className={styles["footer"]}>
