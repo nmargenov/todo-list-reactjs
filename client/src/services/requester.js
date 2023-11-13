@@ -3,8 +3,8 @@ async function request(method, url, data) {
     if (method !== "GET") {
         options.method = method;
         if (data) {
-            options.header = {
-                'content-type': 'application/json'
+            options.headers = {
+                'Content-Type': 'application/json'
             };
             options.body = JSON.stringify(data);
         }
@@ -12,6 +12,9 @@ async function request(method, url, data) {
 
     const response = await fetch(url, options);
     const result = await response.json();
+    if(!response.ok){
+        throw new Error(result.message);
+    }
     return result;
 }
 

@@ -3,14 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList } from "@fortawesome/free-solid-svg-icons";
 import { TodoListItem } from "./TodoListItem/TodoListItem";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAllTodos } from "../../services/todoService";
 import { NoTodos } from "./NoTodos/NoTodos";
 import { Spinner } from "../Spinner/Spinner";
+import { TodoContext } from "../../contexts/TodoContext";
 
-export const TodoList = () => {
-  const [todos, setTodos] = useState([]);
+export const TodoList = ({onAddOpen}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { todos, setTodos} = useContext(TodoContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -40,7 +41,7 @@ export const TodoList = () => {
         </ul>
       </div>
       <div className={styles["footer"]}>
-        <a className={styles["add-btn"]}>Add Task</a>
+        <a onClick={onAddOpen} className={styles["add-btn"]}>Add Task</a>
       </div>
     </div>
   );
