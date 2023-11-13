@@ -21,3 +21,13 @@ export const deleteTodo = async (id) =>{
     const result = await requester.del(BASE_URL+"/"+id);
     return result;
 }
+
+export const getTodoById = async (id) =>{
+    const result = await requester.get(BASE_URL+'/'+id);
+    return result;
+}
+
+export const editTodoById = async (id,data)=>{
+    const result = await requester.put(BASE_URL+'/'+id,data);
+    return result;
+}

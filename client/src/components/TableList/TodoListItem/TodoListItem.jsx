@@ -1,7 +1,7 @@
 import styles from "./todoListItem.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
-import { markAsDone } from "../../../services/todoService";
+import { getAllTodos, getTodoById, markAsDone } from "../../../services/todoService";
 import { useContext, useState } from "react";
 import { TodoContext } from "../../../contexts/TodoContext";
 import { SmallSpinner } from "./SmallSpinner/SmallSpinner";
@@ -9,9 +9,10 @@ import { ModalContext } from "../../../contexts/ModalContext";
 
 export const TodoListItem = ({ _id, description, isCompleted }) => {
   const [isSetting, setIsSetting] = useState(false);
+  const [isEditLoading, setIsEditLoading] = useState(false);
 
   const { setTodos } = useContext(TodoContext);
-  const { onDeleteOpen } = useContext(ModalContext);
+  const { onDeleteOpen, setEditTodo, setIsEditOpen } = useContext(ModalContext);
 
   function onMarkAsDoneClick() {
     setIsSetting(true);
@@ -30,6 +31,18 @@ export const TodoListItem = ({ _id, description, isCompleted }) => {
       });
   }
 
+  function onEditClick(id){
+    setIsEditLoading(true);
+    getTodoById(id)
+      .then((data)=>{
+        setEditTodo(data);
+        setIsEditLoading(false);
+        setIsEditOpen(true);
+      }).catch((err)=>{
+        console.log(err);
+      })
+  }
+
   return (
     <li>
       <div className={styles["left"]}>
@@ -41,7 +54,7 @@ export const TodoListItem = ({ _id, description, isCompleted }) => {
         <span>{description}</span>
       </div>
       <div className={styles["buttons"]}>
-        {!isSetting && (
+        {(!isSetting && !isEditLoading) && (
           <>
             {!isCompleted && (
               <FontAwesomeIcon
@@ -51,12 +64,12 @@ export const TodoListItem = ({ _id, description, isCompleted }) => {
               />
             )}
             {!isCompleted && (
-              <FontAwesomeIcon className={styles["edit-btn"]} icon={faPen} />
+              <FontAwesomeIcon onClick={()=>onEditClick(_id)} className={styles["edit-btn"]} icon={faPen} />
             )}
             <FontAwesomeIcon onClick={()=>onDeleteOpen(_id)} className={styles["delete-btn"]} icon={faTrash} />
           </>
         )}
-        {isSetting && <SmallSpinner/>}
+        {(isSetting || isEditLoading ) && <SmallSpinner/>}
       </div>
     </li>
   );

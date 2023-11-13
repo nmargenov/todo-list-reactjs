@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./app.module.css";
 import { AddTodoModal } from "./components/AddTodoModal/AddTodoModal";
 import { EditTodoModal } from "./components/EditTodoModal/EditTodoModal";
@@ -6,12 +6,15 @@ import { TodoList } from "./components/TableList/TodoList";
 import { TodoContext } from "./contexts/TodoContext";
 import { DeleteModal } from "./components/DeleteModal/DeleteModal";
 import { ModalContext } from "./contexts/ModalContext";
+import { getTodoById } from "./services/todoService";
 
 function App() {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [todos, setTodos] = useState([]);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [deleteId,setDeleteId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editTodo, setEditTodo] = useState(null);
 
   function onAddOpen() {
     setIsAddOpen(true);
@@ -38,11 +41,23 @@ function App() {
   function onDeleteClose() {
     setIsDeleteOpen(false);
   }
+
+  function onEditClose(isEditing) {
+    if(isEditing){
+      return;
+    }
+    setIsEditOpen(false);
+  }
   const modalContext = {
     deleteId,
     isDeleteOpen,
     onDeleteClose,
     onDeleteOpen,
+    editTodo,
+    setEditTodo,
+    isEditOpen,
+    onEditClose,
+    setIsEditOpen
   };
 
   return (
@@ -51,7 +66,7 @@ function App() {
         <main className={styles["main"]}>
           <TodoList />
           {isAddOpen && <AddTodoModal />}
-          {/* <EditTodoModal/> */}
+          {isEditOpen && <EditTodoModal />}
           {isDeleteOpen && <DeleteModal />}
         </main>
       </ModalContext.Provider>

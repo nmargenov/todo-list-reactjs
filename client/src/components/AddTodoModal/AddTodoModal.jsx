@@ -6,7 +6,7 @@ import { GlobalSpinner } from "../GlobalSpinner/GlobalSpinner";
 import { useForm } from "../../hooks/useForm";
 
 export const AddTodoModal = () => {
-  const { values, onInputChange, hasError, setHasError, checkLengthOnSubmit} = useForm();
+  const { values, onInputChange, hasError, setHasError } = useForm();
 
   const [isCreating, setIsCreating] = useState(false);
   const { setTodos, onAddClose } = useContext(TodoContext);
@@ -14,7 +14,11 @@ export const AddTodoModal = () => {
 
   function onSubmit(e) {
     e.preventDefault();
-    checkLengthOnSubmit();
+
+    if (values.description.length < 2) {
+      setHasError("Description must be at least 2 characters long!");
+      return;
+    }
 
     setIsCreating(true);
 

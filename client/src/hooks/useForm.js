@@ -13,14 +13,7 @@ export const useForm = () => {
         }));
     }
 
-    function checkLengthOnSubmit() {
-        if (values.description.length < 2) {
-            setHasError("Description must be at least 2 characters long!");
-            return;
-        }
-    }
-
     return {
-        values, setValues, hasError, setHasError, onInputChange, checkLengthOnSubmit
+        values, setValues, hasError, setHasError, onInputChange
     }
 }
