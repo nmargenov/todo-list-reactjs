@@ -8,7 +8,8 @@ export const AddTodoModal = ({ onAddClose }) => {
     description: "",
   };
   const [values, setValues] = useState(initialValues);
-  const { todos, setTodos } = useContext(TodoContext);
+  const { setTodos } = useContext(TodoContext);
+  const [hasError, setHasError] = useState(null);
   const formRef = useRef(null);
 
   function onInputChange(e) {
@@ -20,11 +21,15 @@ export const AddTodoModal = ({ onAddClose }) => {
 
   function onSubmit(e) {
     e.preventDefault();
+    if(values.description.length<2){
+      setHasError('Description must be at least 2 characters long!');
+      return;
+    }
     createTodo(values).then((data) => {
       setTodos((oldState) => [...oldState , data]);
       onAddClose();
     }).catch((err)=>{
-      console.log(err);
+      setHasError(err);
     })
   }
 
@@ -46,6 +51,7 @@ export const AddTodoModal = ({ onAddClose }) => {
               placeholder="Write todo here..."
             />
           </form>
+          {hasError && <span className={styles['error-msg']}>{hasError}</span>}
         </main>
         <footer>
           <a onClick={onAddClose} className={styles["cancel-btn"]}>

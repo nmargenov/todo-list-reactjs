@@ -94,3 +94,8 @@
   background-color: rgb(255, 80, 80);
   transition: 0.2s;
 }
+
+.error-msg{
+  color:red;
+  margin-left: 5px;
+}
