@@ -41,7 +41,7 @@ export const TodoList = ({onAddOpen}) => {
         </ul>
       </div>
       <div className={styles["footer"]}>
-        <a onClick={onAddOpen} className={styles["add-btn"]}>Add Task</a>
+        {!isLoading && <a onClick={onAddOpen} className={styles["add-btn"]}>Add Task</a>}
       </div>
     </div>
   );
