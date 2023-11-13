@@ -2,13 +2,15 @@ import { useContext, useRef, useState } from "react";
 import styles from "../shared/addEditTodoModal.module.css";
 import { createTodo } from "../../services/todoService";
 import { TodoContext } from "../../contexts/TodoContext";
+import { GlobalSpinner } from "../GlobalSpinner/GlobalSpinner";
 
-export const AddTodoModal = ({ onAddClose }) => {
+export const AddTodoModal = () => {
   const initialValues = {
     description: "",
   };
   const [values, setValues] = useState(initialValues);
-  const { setTodos } = useContext(TodoContext);
+  const [isCreating, setIsCreating] = useState(false);
+  const { setTodos, onAddClose } = useContext(TodoContext);
   const [hasError, setHasError] = useState(null);
   const formRef = useRef(null);
 
@@ -21,21 +23,29 @@ export const AddTodoModal = ({ onAddClose }) => {
 
   function onSubmit(e) {
     e.preventDefault();
-    if(values.description.length<2){
-      setHasError('Description must be at least 2 characters long!');
+    if (values.description.length < 2) {
+      setHasError("Description must be at least 2 characters long!");
       return;
     }
-    createTodo(values).then((data) => {
-      setTodos((oldState) => [...oldState , data]);
-      onAddClose();
-    }).catch((err)=>{
-      setHasError(err);
-    })
+    setIsCreating(true);
+    createTodo(values)
+      .then((data) => {
+        setTodos((oldState) => [...oldState, data]);
+        setIsCreating(false);
+        onAddClose(isCreating);
+      })
+      .catch((err) => {
+        setIsCreating(false);
+        setHasError(err);
+      });
   }
 
   return (
     <div className={styles["modal-overlay"]}>
-      <div onClick={onAddClose} className={styles["backdrop"]}></div>
+      <div
+        onClick={() => onAddClose(isCreating)}
+        className={styles["backdrop"]}
+      ></div>
       <div className={styles["modal"]}>
         <header>
           <h2>Create Todo</h2>
@@ -49,20 +59,27 @@ export const AddTodoModal = ({ onAddClose }) => {
               name="description"
               id="description"
               placeholder="Write todo here..."
+              disabled={isCreating}
             />
           </form>
-          {hasError && <span className={styles['error-msg']}>{hasError}</span>}
+          {hasError && <span className={styles["error-msg"]}>{hasError}</span>}
         </main>
         <footer>
-          <a onClick={onAddClose} className={styles["cancel-btn"]}>
-            Cancel
-          </a>
-          <a
-            onClick={() => formRef.current.requestSubmit()}
-            className={styles["save-btn"]}
-          >
-            Save
-          </a>
+          {isCreating && <GlobalSpinner/>}
+          {!isCreating &&<>
+            <a
+              onClick={() => onAddClose(isCreating)}
+              className={styles["cancel-btn"]}
+            >
+              Cancel
+            </a>
+            <a
+              onClick={() => formRef.current.requestSubmit()}
+              className={styles["save-btn"]}
+            >
+              Save
+            </a>
+          </>}
         </footer>
       </div>
     </div>

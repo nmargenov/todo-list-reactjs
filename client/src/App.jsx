@@ -13,20 +13,25 @@ function App() {
     setIsAddOpen(true);
   }
 
-  function onAddClose(e) {
+  function onAddClose(isCreating) {
+    if(isCreating){
+      return;
+    }
     setIsAddOpen(false);
   }
 
   const context = {
     todos,
     setTodos,
+    onAddClose,
+    onAddOpen
   }
 
   return (
     <TodoContext.Provider value={context}>
       <main className={styles["main"]}>
         <TodoList onAddOpen={onAddOpen} />
-        {isAddOpen && <AddTodoModal onAddClose={onAddClose} />}
+        {isAddOpen && <AddTodoModal/>}
         {/* <EditTodoModal/> */}
       </main>
     </TodoContext.Provider>
