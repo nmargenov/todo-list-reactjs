@@ -9,9 +9,9 @@ import { NoTodos } from "./NoTodos/NoTodos";
 import { Spinner } from "../Spinner/Spinner";
 import { TodoContext } from "../../contexts/TodoContext";
 
-export const TodoList = ({onAddOpen}) => {
+export const TodoList = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { todos, setTodos} = useContext(TodoContext);
+  const { todos, setTodos, onAddOpen } = useContext(TodoContext);
 
   useEffect(() => {
     setIsLoading(true);

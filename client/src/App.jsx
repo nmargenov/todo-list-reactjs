@@ -30,7 +30,7 @@ function App() {
   return (
     <TodoContext.Provider value={context}>
       <main className={styles["main"]}>
-        <TodoList onAddOpen={onAddOpen} />
+        <TodoList />
         {isAddOpen && <AddTodoModal/>}
         {/* <EditTodoModal/> */}
       </main>
