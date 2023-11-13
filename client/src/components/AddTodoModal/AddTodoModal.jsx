@@ -3,31 +3,21 @@ import styles from "../shared/addEditTodoModal.module.css";
 import { createTodo } from "../../services/todoService";
 import { TodoContext } from "../../contexts/TodoContext";
 import { GlobalSpinner } from "../GlobalSpinner/GlobalSpinner";
+import { useForm } from "../../hooks/useForm";
 
 export const AddTodoModal = () => {
-  const initialValues = {
-    description: "",
-  };
-  const [values, setValues] = useState(initialValues);
+  const { values, onInputChange, hasError, setHasError, checkLengthOnSubmit} = useForm();
+
   const [isCreating, setIsCreating] = useState(false);
   const { setTodos, onAddClose } = useContext(TodoContext);
-  const [hasError, setHasError] = useState(null);
   const formRef = useRef(null);
-
-  function onInputChange(e) {
-    setValues((oldState) => ({
-      ...oldState,
-      [e.target.name]: e.target.value,
-    }));
-  }
 
   function onSubmit(e) {
     e.preventDefault();
-    if (values.description.length < 2) {
-      setHasError("Description must be at least 2 characters long!");
-      return;
-    }
+    checkLengthOnSubmit();
+
     setIsCreating(true);
+
     createTodo(values)
       .then((data) => {
         setTodos((oldState) => [...oldState, data]);
@@ -65,21 +55,23 @@ export const AddTodoModal = () => {
           {hasError && <span className={styles["error-msg"]}>{hasError}</span>}
         </main>
         <footer>
-          {isCreating && <GlobalSpinner/>}
-          {!isCreating &&<>
-            <a
-              onClick={() => onAddClose(isCreating)}
-              className={styles["cancel-btn"]}
-            >
-              Cancel
-            </a>
-            <a
-              onClick={() => formRef.current.requestSubmit()}
-              className={styles["save-btn"]}
-            >
-              Save
-            </a>
-          </>}
+          {isCreating && <GlobalSpinner />}
+          {!isCreating && (
+            <>
+              <a
+                onClick={() => onAddClose(isCreating)}
+                className={styles["cancel-btn"]}
+              >
+                Cancel
+              </a>
+              <a
+                onClick={() => formRef.current.requestSubmit()}
+                className={styles["save-btn"]}
+              >
+                Save
+              </a>
+            </>
+          )}
         </footer>
       </div>
     </div>
