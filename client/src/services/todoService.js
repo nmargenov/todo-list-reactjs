@@ -16,3 +16,8 @@ export const markAsDone = async (id) =>{
     const result = await requester.patch(BASE_URL+"/"+id);
     return result;
 }
+
+export const deleteTodo = async (id) =>{
+    const result = await requester.del(BASE_URL+"/"+id);
+    return result;
+}

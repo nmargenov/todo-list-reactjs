@@ -5,11 +5,13 @@ import { markAsDone } from "../../../services/todoService";
 import { useContext, useState } from "react";
 import { TodoContext } from "../../../contexts/TodoContext";
 import { SmallSpinner } from "./SmallSpinner/SmallSpinner";
+import { ModalContext } from "../../../contexts/ModalContext";
 
 export const TodoListItem = ({ _id, description, isCompleted }) => {
   const [isSetting, setIsSetting] = useState(false);
 
   const { setTodos } = useContext(TodoContext);
+  const { onDeleteOpen } = useContext(ModalContext);
 
   function onMarkAsDoneClick() {
     setIsSetting(true);
@@ -51,7 +53,7 @@ export const TodoListItem = ({ _id, description, isCompleted }) => {
             {!isCompleted && (
               <FontAwesomeIcon className={styles["edit-btn"]} icon={faPen} />
             )}
-            <FontAwesomeIcon className={styles["delete-btn"]} icon={faTrash} />
+            <FontAwesomeIcon onClick={()=>onDeleteOpen(_id)} className={styles["delete-btn"]} icon={faTrash} />
           </>
         )}
         {isSetting && <SmallSpinner/>}
