@@ -1,6 +1,6 @@
 import * as requester from './requester';
 
-const BASE_URL = 'http://localhost:5000/api/todos';
+const BASE_URL = 'https://my-todo-vol8.onrender.com/api/todos';
 
 export const getAllTodos = async () => {
     const result = await requester.get(BASE_URL);
