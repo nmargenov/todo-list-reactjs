@@ -1,4 +1,4 @@
-const Todo = require("../models/todo");
+const Todo = require("../models/Todo");
 
 exports.getAllPosts = () => {
     return Todo.find();
